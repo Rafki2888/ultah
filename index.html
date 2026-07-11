@@ -209,6 +209,125 @@
         transform: translateY(0);
       }
 
+      /* ---------- Alasan sayang ---------- */
+      .reasons-block {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 46px;
+      }
+
+      .reasons-title {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 12px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--plum);
+        opacity: 0.75;
+        margin-bottom: 18px;
+        text-align: center;
+      }
+
+      .reasons-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 14px;
+        width: min(560px, 92vw);
+      }
+
+      .reason-card {
+        background: linear-gradient(160deg, #fff 0%, var(--cream) 100%);
+        border: 2px solid #ffffffaa;
+        border-radius: 16px;
+        padding: 16px 14px;
+        box-shadow: 0 12px 24px -10px rgba(107, 42, 74, 0.25);
+        font-size: 13px;
+        line-height: 1.5;
+        text-align: left;
+        transition: transform 0.3s ease;
+      }
+      .reason-card:hover {
+        transform: translateY(-4px) rotate(-1deg);
+      }
+      .reason-card span {
+        display: block;
+        font-size: 22px;
+        margin-bottom: 6px;
+      }
+
+      /* ---------- Tombol kejutan ---------- */
+      .surprise-wrap {
+        width: 100%;
+        margin-bottom: 46px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .surprise-box {
+        margin-top: 18px;
+        max-width: 380px;
+        min-height: 20px;
+        font-style: italic;
+        font-size: 14px;
+        color: var(--plum);
+        opacity: 0.9;
+        transition: opacity 0.3s ease;
+      }
+
+      /* ---------- Meteran cinta ---------- */
+      .love-meter {
+        width: 100%;
+        margin-bottom: 46px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .love-heart {
+        font-size: 46px;
+        cursor: pointer;
+        user-select: none;
+        transition: transform 0.15s ease;
+        filter: drop-shadow(0 4px 8px rgba(107, 42, 74, 0.35));
+      }
+      .love-heart:active {
+        transform: scale(1.3);
+      }
+      .love-count {
+        margin-top: 10px;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        color: var(--plum);
+        opacity: 0.8;
+      }
+      .love-msg {
+        margin-top: 6px;
+        font-style: italic;
+        font-size: 13px;
+        color: var(--plum);
+        min-height: 18px;
+        text-align: center;
+        max-width: 320px;
+      }
+
+      /* ---------- Surat penutup ---------- */
+      .closing-letter {
+        max-width: 420px;
+        font-family: "Georgia", "Times New Roman", serif;
+        font-size: 14px;
+        line-height: 1.75;
+        color: var(--plum);
+        opacity: 0.9;
+        margin-bottom: 30px;
+      }
+      .signature {
+        display: block;
+        font-style: italic;
+        font-size: 15px;
+        margin-top: 10px;
+      }
+
       footer {
         position: relative;
         z-index: 2;
@@ -290,6 +409,10 @@
       h1,
       .subtitle,
       .frame-wrap,
+      .reasons-block,
+      .surprise-wrap,
+      .love-meter,
+      .closing-letter,
       footer {
         opacity: 0;
         animation: naikMuncul 0.9s ease forwards;
@@ -306,8 +429,20 @@
       .frame-wrap {
         animation-delay: 2.4s;
       }
-      footer {
+      .reasons-block {
+        animation-delay: 2.55s;
+      }
+      .surprise-wrap {
         animation-delay: 2.7s;
+      }
+      .love-meter {
+        animation-delay: 2.85s;
+      }
+      .closing-letter {
+        animation-delay: 3s;
+      }
+      footer {
+        animation-delay: 3.2s;
       }
 
       @keyframes naikMuncul {
@@ -332,6 +467,10 @@
         h1,
         .subtitle,
         .frame-wrap,
+        .reasons-block,
+        .surprise-wrap,
+        .love-meter,
+        .closing-letter,
         footer {
           opacity: 1;
           animation: none;
@@ -376,6 +515,62 @@
         <div class="corner-flower br">🌺</div>
         <p class="caption">— momen favorit bersamamu —</p>
       </div>
+
+      <div class="reasons-block">
+        <div class="reasons-title">
+          alasan aku sayang kamu (versi jujur & agak lebay)
+        </div>
+        <div class="reasons-grid">
+          <div class="reason-card">
+            <span>😴</span>Karena kamu masih mau dengerin curhatanku jam 2 pagi,
+            padahal besoknya kamu harus bangun pagi.
+          </div>
+          <div class="reason-card">
+            <span>🍜</span>Karena kamu selalu ngalah soal pilih makan, walau
+            ujung-ujungnya kita makan itu-itu aja.
+          </div>
+          <div class="reason-card">
+            <span>🤲</span>Karena kamu diam-diam suka doain aku, aku tahu walau
+            kamu nggak pernah bilang langsung.
+          </div>
+          <div class="reason-card">
+            <span>😂</span>Karena ketawamu berisik banget, tapi anehnya itu jadi
+            suara favoritku.
+          </div>
+          <div class="reason-card">
+            <span>🫶</span>Karena kamu sabar banget sama sifat bucinnya aku yang
+            kadang keterlaluan.
+          </div>
+          <div class="reason-card">
+            <span>🌱</span>Karena bareng kamu, rasanya rencana masa depan jadi
+            nggak seseram itu.
+          </div>
+        </div>
+      </div>
+
+      <div class="surprise-wrap">
+        <button class="btn" id="surpriseBtn" type="button">
+          klik buat kejutan kecil
+        </button>
+        <p class="surprise-box" id="surpriseBox"></p>
+      </div>
+
+      <div class="love-meter">
+        <div class="love-heart" id="loveHeart">💗</div>
+        <div class="love-count" id="loveCount">0 kali dipencet</div>
+        <div class="love-msg" id="loveMsg">
+          pencet kalau kamu juga sayang aku
+        </div>
+      </div>
+
+      <p class="closing-letter">
+        Terakhir, satu hal yang mau aku titipin: kamu nggak perlu sempurna buat
+        pantas disayang, kamu udah cukup jadi kamu apa adanya. Makasih udah mau
+        bertahan, mau direpotin, dan mau nerima aku yang kadang absurd ini.
+        Semoga umur panjang, sehat selalu, rezeki lancar, dan hati tetap punya
+        tempat buat aku. Aamiin. 🌸
+        <span class="signature">— yang selalu bersyukur punya kamu</span>
+      </p>
     </div>
 
     <footer>rafki januar firmansyah 🌸</footer>
@@ -408,6 +603,68 @@
       // ---------- Aktifkan animasi pembuka ----------
       window.addEventListener("load", () => {
         document.body.classList.add("ready");
+      });
+
+      // ---------- Tombol kejutan ----------
+      const surpriseMsgs = [
+        "Kamu itu bukti kalau doa nggak pernah telat, cuma nunggu waktu yang pas. 🌸",
+        "PS: kamu cantik dari sononya, bukan cuma waktu difoto pakai filter. 😌",
+        "Kalau capek, istirahat dulu ya. Aku nggak kemana-mana kok. 🫶",
+        "Fun fact: senyum kamu itu satu-satunya alasan aku nggak jadi mager hari ini.",
+        "Semoga semua rencana kamu tahun ini dimudahkan sama Allah. Aamiin. 🤲",
+        "Aku tetap milih kamu, walau kamu suka worry berlebihan. 😂",
+        "Makasih udah jadi rumah paling nyaman buat aku pulang.",
+        "Kalau sayang bisa ditimbang, punyaku udah kelebihan muatan sih.",
+      ];
+      const surpriseBtn = document.getElementById("surpriseBtn");
+      const surpriseBox = document.getElementById("surpriseBox");
+      let surpriseIndex = -1;
+      surpriseBtn.addEventListener("click", () => {
+        let next = Math.floor(Math.random() * surpriseMsgs.length);
+        if (surpriseMsgs.length > 1) {
+          while (next === surpriseIndex) {
+            next = Math.floor(Math.random() * surpriseMsgs.length);
+          }
+        }
+        surpriseIndex = next;
+        surpriseBox.style.opacity = 0;
+        setTimeout(() => {
+          surpriseBox.textContent = surpriseMsgs[surpriseIndex];
+          surpriseBox.style.opacity = 1;
+        }, 150);
+      });
+
+      // ---------- Meteran cinta ----------
+      const loveHeart = document.getElementById("loveHeart");
+      const loveCount = document.getElementById("loveCount");
+      const loveMsg = document.getElementById("loveMsg");
+      let loveTotal = 0;
+      const loveStages = [
+        { min: 0, text: "pencet kalau kamu juga sayang aku" },
+        { min: 1, text: "yah baru segitu doang sayangnya? 😏" },
+        { min: 5, text: "nah gitu dong, lumayan~" },
+        { min: 15, text: "wah serius nih sayang banget ya" },
+        {
+          min: 30,
+          text: "oke oke aku percaya, jangan sampai jebol jarinya 😆",
+        },
+        {
+          min: 50,
+          text: "meterannya udah penuh, sisanya dibuktiin di dunia nyata ya 🫶",
+        },
+      ];
+      loveHeart.addEventListener("click", () => {
+        loveTotal += 1;
+        loveCount.textContent = loveTotal + " kali dipencet";
+        let msg = loveStages[0].text;
+        for (const stage of loveStages) {
+          if (loveTotal >= stage.min) msg = stage.text;
+        }
+        loveMsg.textContent = msg;
+        loveHeart.style.transform = "scale(1.35)";
+        setTimeout(() => {
+          loveHeart.style.transform = "scale(1)";
+        }, 150);
       });
     </script>
   </body>
