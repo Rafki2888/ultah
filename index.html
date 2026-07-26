@@ -859,36 +859,6 @@
     </style>
   </head>
   <body>
-    <!-- Slide 1 (Aktif pertama kali) -->
-    <div class="slide active">
-      <h1>Happy Birthday Diva!</h1>
-      <!-- Tombol Lanjut -->
-      <button class="btn-lanjut">Lanjut</button>
-    </div>
-
-    <!-- Slide 2 -->
-    <div class="slide">
-      <h2>Ini Slide Kedua (Foto)</h2>
-      <button class="btn-lanjut">Lanjut</button>
-    </div>
-
-    <!-- Slide 3 -->
-    <div class="slide">
-      <h2>Ini Slide Ketiga</h2>
-      <button class="btn-lanjut">Lanjut</button>
-    </div>
-
-    <!-- Slide 4 -->
-    <div class="slide">
-      <h2>Ini Slide Keempat</h2>
-      <button class="btn-lanjut">Lanjut</button>
-    </div>
-
-    <!-- Slide 5 -->
-    <div class="slide">
-      <h2>Ini Slide Kelima (Surat Penutup)</h2>
-    </div>
-
     <div class="bg-deco">
       <span
         class="deco"
@@ -1433,21 +1403,6 @@
         setTimeout(() => {
           loveHeart.style.transform = "scale(1)";
         }, 150);
-      });
-
-      const slides = document.querySelectorAll(".slide");
-      const tombolLanjut = document.querySelectorAll(".btn-lanjut");
-
-      let currentIndex = 0;
-
-      tombolLanjut.forEach((tombol) => {
-        tombol.addEventListener("click", () => {
-          slides[currentIndex].classList.remove("active");
-          currentIndex++;
-          if (currentIndex < slides.length) {
-            slides[currentIndex].classList.add("active");
-          }
-        });
       });
     </script>
   </body>
