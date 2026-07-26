@@ -15,6 +15,8 @@
         --plum: #6b2a4a;
         --cream: #fff5f8;
         --gold: #f6c9d8;
+        --rose-deep: #c23b73;
+        --shine: rgba(255, 255, 255, 0.9);
       }
 
       * {
@@ -38,10 +40,151 @@
           url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cg transform='translate(35,35)'%3E%3Cellipse cx='0' cy='-9' rx='5' ry='9'/%3E%3Cellipse cx='0' cy='9' rx='5' ry='9'/%3E%3Cellipse cx='-9' cy='0' rx='9' ry='5'/%3E%3Cellipse cx='9' cy='0' rx='9' ry='5'/%3E%3Ccircle r='4' fill='%23ffe066'/%3E%3C/g%3E%3Cg transform='translate(120,90) scale(0.7)'%3E%3Cellipse cx='0' cy='-9' rx='5' ry='9'/%3E%3Cellipse cx='0' cy='9' rx='5' ry='9'/%3E%3Cellipse cx='-9' cy='0' rx='9' ry='5'/%3E%3Cellipse cx='9' cy='0' rx='9' ry='5'/%3E%3Ccircle r='4' fill='%23ffe066'/%3E%3C/g%3E%3Cg transform='translate(70,125) scale(0.85)'%3E%3Cellipse cx='0' cy='-9' rx='5' ry='9'/%3E%3Cellipse cx='0' cy='9' rx='5' ry='9'/%3E%3Cellipse cx='-9' cy='0' rx='9' ry='5'/%3E%3Cellipse cx='9' cy='0' rx='9' ry='5'/%3E%3Ccircle r='4' fill='%23ffe066'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
           url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='%23e85d99' fill-opacity='0.22'%3E%3Cpath d='M20 12c3 0 5 3 5 6s-2 6-5 6-5-3-5-6 2-6 5-6zm0 2c-2 0-3 2-3 4s1 4 3 4 3-2 3-4-1-4-3-4z'/%3E%3Ccircle cx='20' cy='18' r='2'/%3E%3Cpath d='M65 45c3 0 5 3 5 6s-2 6-5 6-5-3-5-6 2-6 5-6zm0 2c-2 0-3 2-3 4s1 4 3 4 3-2 3-4-1-4-3-4z'/%3E%3Ccircle cx='65' cy='51' r='2'/%3E%3Cpath d='M40 70c3 0 5 3 5 6s-2 6-5 6-5-3-5-6 2-6 5-6zm0 2c-2 0-3 2-3 4s1 4 3 4 3-2 3-4-1-4-3-4z'/%3E%3Ccircle cx='40' cy='76' r='2'/%3E%3C/g%3E%3C/svg%3E");
         background-repeat: no-repeat, repeat, repeat, repeat;
-        background-size: cover, 260px 260px, 100px 100px, 60px 60px;
+        background-size: 200% 200%, 260px 260px, 100px 100px, 60px 60px;
         background-position: top, 0 0, 0 0, 30px 30px;
+        animation: gradientDrift 14s ease-in-out infinite;
         overflow: hidden;
         color: var(--plum);
+      }
+
+      @keyframes gradientDrift {
+        0%,
+        100% {
+          background-position: 0% 0%, 0 0, 0 0, 30px 30px;
+        }
+        50% {
+          background-position: 20% 30%, 0 0, 0 0, 30px 30px;
+        }
+      }
+
+      /* ---------- Lapisan cahaya bokeh romantis ---------- */
+      .bg-glow {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+        filter: blur(2px);
+      }
+      .bg-glow span {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          var(--shine) 0%,
+          rgba(255, 210, 230, 0.35) 45%,
+          rgba(255, 210, 230, 0) 75%
+        );
+        opacity: 0.55;
+        animation: glowFloat 10s ease-in-out infinite;
+      }
+      .bg-glow span:nth-child(1) {
+        width: 220px;
+        height: 220px;
+        top: 6%;
+        left: 8%;
+        animation-duration: 12s;
+      }
+      .bg-glow span:nth-child(2) {
+        width: 160px;
+        height: 160px;
+        top: 60%;
+        left: 78%;
+        animation-duration: 9s;
+        animation-delay: -3s;
+      }
+      .bg-glow span:nth-child(3) {
+        width: 130px;
+        height: 130px;
+        top: 20%;
+        left: 70%;
+        animation-duration: 11s;
+        animation-delay: -6s;
+      }
+      .bg-glow span:nth-child(4) {
+        width: 190px;
+        height: 190px;
+        top: 78%;
+        left: 18%;
+        animation-duration: 13s;
+        animation-delay: -1.5s;
+      }
+      @keyframes glowFloat {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(18px, -22px) scale(1.12);
+        }
+      }
+
+      /* ---------- Efek hati meletup saat pindah slide ---------- */
+      .burst-heart {
+        position: fixed;
+        z-index: 6;
+        pointer-events: none;
+        animation: burstUp 1.1s ease-out forwards;
+      }
+      @keyframes burstUp {
+        0% {
+          opacity: 1;
+          transform: translate(-50%, 0) scale(0.8);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -80px) scale(1.3) rotate(20deg);
+        }
+      }
+
+      /* ---------- Dekorasi bunga & hati besar yang mengambang di background ---------- */
+      .bg-deco {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .deco {
+        position: absolute;
+        opacity: 0.16;
+        filter: drop-shadow(0 6px 10px rgba(107, 42, 74, 0.25));
+        animation: decoFloat 9s ease-in-out infinite;
+      }
+      @keyframes decoFloat {
+        0%,
+        100% {
+          transform: translateY(0) rotate(var(--deco-rot, 0deg));
+        }
+        50% {
+          transform: translateY(-16px)
+            rotate(calc(var(--deco-rot, 0deg) + 6deg));
+        }
+      }
+      @media (max-width: 480px) {
+        .deco {
+          transform: scale(0.7);
+        }
+        .deco.deco-hide-mobile {
+          display: none;
+        }
+      }
+      .sparkle {
+        position: absolute;
+        color: #fff;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+        animation: twinkle 2.6s ease-in-out infinite;
+      }
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.15;
+          transform: scale(0.8);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.15);
+        }
       }
 
       /* ---------- Layer siluet bunga statis di background (biar tidak polos) ---------- */
@@ -211,7 +354,14 @@
 
       .slide.active {
         display: flex;
-        animation: fadeSlide 0.5s ease forwards;
+        animation: fadeSlide 0.6s ease forwards;
+      }
+
+      .slide.active.enter-next {
+        animation: slideInNext 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+      .slide.active.enter-prev {
+        animation: slideInPrev 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
 
       @keyframes fadeSlide {
@@ -222,6 +372,38 @@
         to {
           opacity: 1;
           transform: translateY(0);
+        }
+      }
+
+      @keyframes slideInNext {
+        0% {
+          opacity: 0;
+          transform: translateX(80px) scale(0.92) rotate(3deg);
+          filter: blur(8px);
+        }
+        60% {
+          filter: blur(0);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0) scale(1) rotate(0deg);
+          filter: blur(0);
+        }
+      }
+
+      @keyframes slideInPrev {
+        0% {
+          opacity: 0;
+          transform: translateX(-80px) scale(0.92) rotate(-3deg);
+          filter: blur(8px);
+        }
+        60% {
+          filter: blur(0);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0) scale(1) rotate(0deg);
+          filter: blur(0);
         }
       }
 
@@ -326,39 +508,120 @@
         margin-bottom: 6px;
       }
 
-      /* ---------- Alasan sayang ---------- */
-      .reasons-block {
+      /* ---------- Mini kuis harapan hubungan ---------- */
+      .quiz-block {
         width: min(560px, 92vw);
       }
 
-      .reasons-title {
+      .quiz-title {
         font-family: "Helvetica Neue", Arial, sans-serif;
         font-size: 13px;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         opacity: 0.7;
+        margin-bottom: 8px;
+      }
+
+      .quiz-progress {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 12px;
+        color: var(--rose-deep);
+        font-weight: 600;
+        margin-bottom: 18px;
+      }
+
+      .quiz-question {
+        font-size: clamp(17px, 3.6vw, 22px);
+        font-style: italic;
+        margin-bottom: 18px;
+        line-height: 1.5;
+      }
+
+      .quiz-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .quiz-option {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1.5px solid rgba(255, 255, 255, 0.85);
+        border-radius: 14px;
+        padding: 14px 18px;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 14px;
+        text-align: left;
+        line-height: 1.4;
+        cursor: pointer;
+        box-shadow: 0 8px 18px -12px rgba(107, 42, 74, 0.25);
+        transition: transform 0.2s ease, background 0.2s ease,
+          box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      }
+      .quiz-option:hover:not(.disabled) {
+        transform: translateY(-2px);
+        background: #ffffff;
+        box-shadow: 0 12px 22px -10px rgba(107, 42, 74, 0.35);
+      }
+      .quiz-option.selected {
+        background: linear-gradient(135deg, var(--blossom-3), var(--rose-deep));
+        color: var(--cream);
+        border-color: transparent;
+        box-shadow: 0 12px 24px -8px rgba(194, 59, 115, 0.55);
+      }
+      .quiz-option.disabled {
+        cursor: default;
+      }
+      .quiz-option.disabled:not(.selected) {
+        opacity: 0.55;
+      }
+
+      .quiz-reveal {
+        margin-top: 16px;
+        min-height: 20px;
+        font-size: 14px;
+        font-style: italic;
+        opacity: 0;
+        transition: opacity 0.35s ease;
+      }
+      .quiz-reveal.show {
+        opacity: 1;
+      }
+
+      .quiz-next {
+        margin-top: 22px;
+      }
+
+      .quiz-result-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        text-align: left;
         margin-bottom: 16px;
       }
-
-      .reasons-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 12px;
-      }
-
-      .reason-card {
+      .quiz-result-item {
         background: rgba(255, 255, 255, 0.55);
         border: 1px solid rgba(255, 255, 255, 0.7);
         border-radius: 14px;
-        padding: 14px 16px;
+        padding: 12px 16px;
         font-family: "Helvetica Neue", Arial, sans-serif;
         font-size: 13px;
         line-height: 1.5;
-        text-align: left;
         box-shadow: 0 8px 20px -10px rgba(107, 42, 74, 0.2);
       }
-      .reason-card span {
-        margin-right: 8px;
+      .quiz-result-item b {
+        display: block;
+        font-size: 12px;
+        letter-spacing: 0.03em;
+        color: var(--rose-deep);
+        margin-bottom: 4px;
+        font-style: normal;
+      }
+      .quiz-result-note {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 13px;
+        font-style: italic;
+        opacity: 0.8;
+        max-width: 460px;
       }
 
       /* ---------- Tombol kejutan ---------- */
@@ -367,20 +630,74 @@
       }
 
       .btn {
+        position: relative;
+        overflow: hidden;
         font-family: "Helvetica Neue", Arial, sans-serif;
         font-size: 14px;
+        font-weight: 600;
         letter-spacing: 0.03em;
-        background: var(--plum);
+        background: linear-gradient(
+          135deg,
+          var(--blossom-3) 0%,
+          var(--rose-deep) 55%,
+          var(--plum) 100%
+        );
         color: var(--cream);
         border: none;
         border-radius: 999px;
-        padding: 12px 26px;
+        padding: 14px 30px;
         cursor: pointer;
-        box-shadow: 0 10px 24px -10px rgba(107, 42, 74, 0.5);
-        transition: transform 0.15s ease, box-shadow 0.2s ease;
+        box-shadow: 0 10px 24px -8px rgba(107, 42, 74, 0.6),
+          0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        animation: btnPulse 2.4s ease-in-out infinite;
+      }
+      .btn::before {
+        content: "💗 ";
+      }
+      .btn::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -75%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent 0%,
+          rgba(255, 255, 255, 0.55) 50%,
+          transparent 100%
+        );
+        transform: skewX(-20deg);
+        animation: btnShine 3s ease-in-out infinite;
+      }
+      .btn:hover {
+        transform: translateY(-3px) scale(1.04);
+        box-shadow: 0 16px 32px -8px rgba(194, 59, 115, 0.65),
+          0 0 0 1px rgba(255, 255, 255, 0.35) inset;
       }
       .btn:active {
         transform: scale(0.96);
+      }
+      @keyframes btnPulse {
+        0%,
+        100% {
+          box-shadow: 0 10px 24px -8px rgba(107, 42, 74, 0.6),
+            0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+        }
+        50% {
+          box-shadow: 0 10px 28px -4px rgba(232, 93, 153, 0.75),
+            0 0 0 1px rgba(255, 255, 255, 0.35) inset;
+        }
+      }
+      @keyframes btnShine {
+        0% {
+          left: -75%;
+        }
+        60%,
+        100% {
+          left: 130%;
+        }
       }
 
       .surprise-box {
@@ -461,17 +778,28 @@
 
       .nav-btn {
         pointer-events: auto;
+        position: relative;
         font-family: "Helvetica Neue", Arial, sans-serif;
         font-size: 13px;
+        font-weight: 600;
         letter-spacing: 0.03em;
-        background: rgba(255, 255, 255, 0.85);
-        color: var(--plum);
-        border: 1px solid rgba(107, 42, 74, 0.25);
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(6px);
+        color: var(--rose-deep);
+        border: 1.5px solid rgba(232, 93, 153, 0.45);
         border-radius: 999px;
-        padding: 10px 20px;
+        padding: 11px 22px;
         cursor: pointer;
         box-shadow: 0 8px 18px -10px rgba(107, 42, 74, 0.4);
-        transition: transform 0.15s ease, opacity 0.2s ease;
+        transition: transform 0.2s ease, box-shadow 0.2s ease,
+          background 0.2s ease, color 0.2s ease;
+      }
+      .nav-btn:hover:not([disabled]) {
+        background: linear-gradient(135deg, var(--blossom-3), var(--rose-deep));
+        color: var(--cream);
+        border-color: transparent;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px -8px rgba(194, 59, 115, 0.55);
       }
       .nav-btn:active {
         transform: scale(0.95);
@@ -507,10 +835,117 @@
           padding-bottom: 90px;
         }
       }
+
+      @media (prefers-reduced-motion: reduce) {
+        html,
+        body,
+        .btn,
+        .btn::after,
+        .bg-glow span,
+        .sparkle,
+        .deco,
+        .burst-heart,
+        .slide.active.enter-next,
+        .slide.active.enter-prev {
+          animation: none !important;
+        }
+      }
     </style>
   </head>
   <body>
+    <div class="bg-deco">
+      <span
+        class="deco"
+        style="top: 4%; left: 3%; font-size: 76px; --deco-rot: -10deg"
+        >🌸</span
+      >
+      <span
+        class="deco"
+        style="
+          top: 8%;
+          right: 5%;
+          font-size: 64px;
+          --deco-rot: 14deg;
+          animation-delay: -2s;
+        "
+        >💗</span
+      >
+      <span
+        class="deco"
+        style="
+          bottom: 6%;
+          left: 6%;
+          font-size: 80px;
+          --deco-rot: 8deg;
+          animation-delay: -4s;
+        "
+        >🌺</span
+      >
+      <span
+        class="deco"
+        style="
+          bottom: 4%;
+          right: 4%;
+          font-size: 66px;
+          --deco-rot: -16deg;
+          animation-delay: -1s;
+        "
+        >❤️</span
+      >
+      <span
+        class="deco deco-hide-mobile"
+        style="
+          top: 40%;
+          left: -2%;
+          font-size: 56px;
+          --deco-rot: 20deg;
+          animation-delay: -3s;
+        "
+        >🌷</span
+      >
+      <span
+        class="deco deco-hide-mobile"
+        style="
+          top: 52%;
+          right: -2%;
+          font-size: 52px;
+          --deco-rot: -8deg;
+          animation-delay: -5s;
+        "
+        >💕</span
+      >
+      <span
+        class="deco deco-hide-mobile"
+        style="
+          top: 22%;
+          left: 42%;
+          font-size: 44px;
+          --deco-rot: 6deg;
+          animation-delay: -2.5s;
+        "
+        >🌼</span
+      >
+    </div>
+    <div class="bg-glow">
+      <span></span><span></span><span></span><span></span>
+    </div>
     <div class="petals" id="petals"></div>
+    <span class="sparkle" style="top: 12%; left: 22%; font-size: 16px">✨</span>
+    <span
+      class="sparkle"
+      style="top: 35%; left: 85%; font-size: 14px; animation-delay: -1s"
+      >✦</span
+    >
+    <span
+      class="sparkle"
+      style="top: 70%; left: 12%; font-size: 18px; animation-delay: -2s"
+      >✨</span
+    >
+    <span
+      class="sparkle"
+      style="top: 82%; left: 88%; font-size: 14px; animation-delay: -0.5s"
+      >✦</span
+    >
 
     <div class="app" id="app">
       <!-- Slide 1: Cover -->
@@ -547,37 +982,34 @@
         <p class="caption">— momen favorit bersamamu —</p>
       </section>
 
-      <!-- Slide 3: Alasan sayang -->
+      <!-- Slide 3: Mini kuis harapan hubungan -->
       <section class="slide" data-slide="2">
-        <div class="reasons-block">
-          <div class="reasons-title">
-            alasan aku sayang kamu (versi jujur & agak lebay)
+        <div class="quiz-block">
+          <div class="quiz-title">kuis kecil: harapan kita ke depan</div>
+          <div class="quiz-progress" id="quizProgress">soal 1 / 5</div>
+
+          <div id="quizQuestionWrap">
+            <div class="quiz-question" id="quizQuestion"></div>
+            <div class="quiz-options" id="quizOptions"></div>
+            <p class="quiz-reveal" id="quizReveal"></p>
+            <button
+              class="btn quiz-next"
+              id="quizNextBtn"
+              type="button"
+              style="display: none"
+            >
+              Soal berikutnya →
+            </button>
           </div>
-          <div class="reasons-grid">
-            <div class="reason-card">
-              <span>😴</span>Karena kamu masih mau dengerin curhatanku jam 2
-              pagi, padahal besoknya kamu harus bangun pagi.
-            </div>
-            <div class="reason-card">
-              <span>🍜</span>Karena kamu selalu ngalah soal pilih makan, walau
-              ujung-ujungnya kita makan itu-itu aja.
-            </div>
-            <div class="reason-card">
-              <span>🤲</span>Karena kamu diam-diam suka doain aku, aku tahu
-              walau kamu nggak pernah bilang langsung.
-            </div>
-            <div class="reason-card">
-              <span>😂</span>Karena ketawamu berisik banget, tapi anehnya itu
-              jadi suara favoritku.
-            </div>
-            <div class="reason-card">
-              <span>🫶</span>Karena kamu sabar banget sama sifat bucinnya aku
-              yang kadang keterlaluan.
-            </div>
-            <div class="reason-card">
-              <span>🌱</span>Karena bareng kamu, rasanya rencana masa depan jadi
-              nggak seseram itu.
-            </div>
+
+          <div class="quiz-result" id="quizResult" style="display: none">
+            <div class="quiz-title">rekap harapan kita</div>
+            <div class="quiz-result-list" id="quizResultList"></div>
+            <p class="quiz-result-note">
+              Nggak ada jawaban salah di sini, karena ini bukan tentang benar
+              atau salah — ini tentang apa yang kita berdua mau perjuangin
+              bareng. 🌸
+            </p>
           </div>
         </div>
       </section>
@@ -625,7 +1057,7 @@
 
     <script>
       // ---------- Generate kelopak bunga berjatuhan (berjalan terus, lepas dari slide) ----------
-      const flowers = ["🌸", "🌺", "🌷", "💮", "❀", "✿"];
+      const flowers = ["🌸", "🌺", "🌷", "💮", "❀", "✿", "💕", "💗"];
       const container = document.getElementById("petals");
       const totalPetals = 22;
 
@@ -672,10 +1104,21 @@
       });
       const dotEls = Array.from(dotsWrap.children);
 
-      function showSlide(index) {
-        current = Math.max(0, Math.min(slides.length - 1, index));
+      function showSlide(index, direction) {
+        const target = Math.max(0, Math.min(slides.length - 1, index));
+        if (direction === undefined) {
+          direction =
+            target > current ? "next" : target < current ? "prev" : null;
+        }
+        current = target;
         slides.forEach((s, i) => {
-          s.classList.toggle("active", i === current);
+          const isActive = i === current;
+          s.classList.remove("enter-next", "enter-prev");
+          if (isActive) {
+            if (direction === "next") s.classList.add("enter-next");
+            else if (direction === "prev") s.classList.add("enter-prev");
+          }
+          s.classList.toggle("active", isActive);
         });
         dotEls.forEach((d, i) => {
           d.classList.toggle("active", i === current);
@@ -685,10 +1128,34 @@
           current === slides.length - 1 ? "Selesai ✓" : "Lanjut →";
       }
 
-      prevBtn.addEventListener("click", () => showSlide(current - 1));
-      nextBtn.addEventListener("click", () => {
+      // ---------- Efek hati meletup saat pindah slide ----------
+      const burstEmojis = ["💖", "💕", "🌸", "✨"];
+      function burstHeartsAt(clientX, clientY) {
+        for (let i = 0; i < 6; i++) {
+          const h = document.createElement("span");
+          h.className = "burst-heart";
+          h.textContent =
+            burstEmojis[Math.floor(Math.random() * burstEmojis.length)];
+          h.style.left = clientX + (Math.random() * 50 - 25) + "px";
+          h.style.top = clientY + "px";
+          h.style.fontSize = 14 + Math.random() * 10 + "px";
+          document.body.appendChild(h);
+          setTimeout(() => h.remove(), 1200);
+        }
+      }
+      function burstFromEvent(e) {
+        const r = e.currentTarget.getBoundingClientRect();
+        burstHeartsAt(r.left + r.width / 2, r.top);
+      }
+
+      prevBtn.addEventListener("click", (e) => {
+        burstFromEvent(e);
+        showSlide(current - 1, "prev");
+      });
+      nextBtn.addEventListener("click", (e) => {
         if (current < slides.length - 1) {
-          showSlide(current + 1);
+          burstFromEvent(e);
+          showSlide(current + 1, "next");
         }
       });
       dotEls.forEach((d) => {
@@ -699,16 +1166,186 @@
 
       showSlide(0);
 
+      // ---------- Mini kuis: harapan hubungan ke depan ----------
+      const quizData = [
+        {
+          question: "Harapan terbesar kamu buat hubungan kita ke depan apa?",
+          options: [
+            {
+              text: "Makin dewasa & makin ngerti satu sama lain",
+              reveal:
+                "Setuju. Semoga kita makin jago komunikasi, bukan makin jago tebak-tebakan. 🌸",
+            },
+            {
+              text: "Bisa lanjut ke jenjang yang lebih serius",
+              reveal: "Aamiin, semoga waktunya dimudahkan dan direstui. 🤲",
+            },
+            {
+              text: "Tetap seru & nggak ngebosenin kayak sekarang",
+              reveal: "Sepakat, drama boleh sedikit, garing jangan banyak. 😂",
+            },
+          ],
+        },
+        {
+          question: "Kalau nanti ada masalah besar, maunya diselesaiin gimana?",
+          options: [
+            {
+              text: "Dibicarain baik-baik sampai tuntas",
+              reveal: "Ini kunci. Ngambek boleh, ngilang jangan. 🫶",
+            },
+            {
+              text: "Kasih waktu dingin dulu, baru ngobrol",
+              reveal:
+                "Fair, yang penting nggak dianggurin sampai berhari-hari ya. 😌",
+            },
+            {
+              text: "Selesai di hari itu juga, nggak dibawa tidur",
+              reveal: "Setuju, biar nggak numpuk jadi bom waktu. 💣➡️💗",
+            },
+          ],
+        },
+        {
+          question: "Masa depan yang kamu bayangin buat kita tuh kayak gimana?",
+          options: [
+            {
+              text: "Tenang, sederhana, yang penting bareng",
+              reveal: "Rumah kecil isinya banyak tawa, cukup. 🏡",
+            },
+            {
+              text: "Rame, banyak kegiatan & petualangan bareng",
+              reveal: "Oke, siap-siap itinerary dadakan dari aku. ✈️",
+            },
+            {
+              text: "Yang penting berdua, bentuknya belakangan",
+              reveal:
+                "Setuju, jalanin dulu, detailnya kita susun bareng-bareng. 🌷",
+            },
+          ],
+        },
+        {
+          question: "Hal yang paling pengen kamu jaga dari hubungan ini?",
+          options: [
+            {
+              text: "Kepercayaan",
+              reveal: "Nomor satu. Sekali retak, susah balik kayak semula. 🌸",
+            },
+            {
+              text: "Komunikasi",
+              reveal:
+                "Setuju, banyak masalah selesai cuma karena mau ngomong duluan.",
+            },
+            {
+              text: "Waktu berkualitas bareng",
+              reveal: "Sibuk boleh, tapi jangan lupa nyempetin buat kita. 💗",
+            },
+          ],
+        },
+        {
+          question: "Dalam beberapa tahun ke depan, maunya kita udah…",
+          options: [
+            {
+              text: "Nikah & bangun rumah tangga bareng",
+              reveal: "Semoga dilancarkan prosesnya ya. Aamiin. 🤲🌸",
+            },
+            {
+              text: "Lebih stabil di karir masing-masing & makin solid",
+              reveal: "Sama-sama berkembang, tapi tetap satu tim. 💪💗",
+            },
+            {
+              text: "Masih terus belajar bareng, apapun hasilnya",
+              reveal: "Yang penting jalan bareng terus, nggak buru-buru. 🌷",
+            },
+          ],
+        },
+      ];
+
+      let quizIndex = 0;
+      const quizAnswers = [];
+      const quizProgressEl = document.getElementById("quizProgress");
+      const quizQuestionEl = document.getElementById("quizQuestion");
+      const quizOptionsEl = document.getElementById("quizOptions");
+      const quizRevealEl = document.getElementById("quizReveal");
+      const quizNextBtn = document.getElementById("quizNextBtn");
+      const quizQuestionWrap = document.getElementById("quizQuestionWrap");
+      const quizResultEl = document.getElementById("quizResult");
+      const quizResultListEl = document.getElementById("quizResultList");
+
+      function renderQuiz() {
+        const data = quizData[quizIndex];
+        quizProgressEl.textContent = `soal ${quizIndex + 1} / ${
+          quizData.length
+        }`;
+        quizQuestionEl.textContent = data.question;
+        quizOptionsEl.innerHTML = "";
+        quizRevealEl.classList.remove("show");
+        quizRevealEl.textContent = "";
+        quizNextBtn.style.display = "none";
+
+        data.options.forEach((opt, i) => {
+          const btn = document.createElement("div");
+          btn.className = "quiz-option";
+          btn.textContent = opt.text;
+          btn.addEventListener("click", () => selectQuizOption(i));
+          quizOptionsEl.appendChild(btn);
+        });
+      }
+
+      function selectQuizOption(i) {
+        const data = quizData[quizIndex];
+        const optionEls = Array.from(quizOptionsEl.children);
+        optionEls.forEach((el, idx) => {
+          el.classList.add("disabled");
+          if (idx === i) el.classList.add("selected");
+        });
+
+        quizAnswers[quizIndex] = {
+          question: data.question,
+          answer: data.options[i].text,
+        };
+
+        setTimeout(() => {
+          quizRevealEl.textContent = data.options[i].reveal;
+          quizRevealEl.classList.add("show");
+          quizNextBtn.textContent =
+            quizIndex === quizData.length - 1
+              ? "Lihat rekap kita →"
+              : "Soal berikutnya →";
+          quizNextBtn.style.display = "inline-block";
+        }, 200);
+      }
+
+      quizNextBtn.addEventListener("click", () => {
+        if (quizIndex < quizData.length - 1) {
+          quizIndex += 1;
+          renderQuiz();
+        } else {
+          showQuizResult();
+        }
+      });
+
+      function showQuizResult() {
+        quizQuestionWrap.style.display = "none";
+        quizResultEl.style.display = "block";
+        quizResultListEl.innerHTML = "";
+        quizAnswers.forEach((a) => {
+          const item = document.createElement("div");
+          item.className = "quiz-result-item";
+          item.innerHTML = `<b>${a.question}</b>${a.answer}`;
+          quizResultListEl.appendChild(item);
+        });
+      }
+
+      renderQuiz();
+
       // ---------- Tombol kejutan ----------
       const surpriseMsgs = [
-        "Kamu itu bukti kalau doa nggak pernah telat, cuma nunggu waktu yang pas. 🌸",
-        "semangat trus ya sayang jalanin semua nya 😌",
+        "Kamu bukti kalau doa nggak pernah telat, cuma nunggu waktu yang pas. 🌸",
         "Kalau capek, istirahat dulu ya. Aku nggak kemana-mana kok. 🫶",
-        "Fun fact: senyum kamu itu satu-satunya alasan aku nggak jadi mager hari ini.",
-        "Semoga semua rencana kamu tahun ini dimudahkan sama Allah. Aamiin. 🤲",
-        "Aku tetap milih kamu, walau kamu suka ga jelassssss berlebihan. 😂",
-        "Makasih udah jadi rumah paling nyaman buat aku pulang.",
-        "love u sayang aku yang lucuwww.",
+        "Fun fact: senyum kamu itu salah satu (selain family) alasan aku nggak jadi mager hari ini.",
+        "Semoga semua rencana kamu kedepan dimudahkan sama Allah. Aamiin. 🤲",
+        "Aku tetap milih kamu, walau kamu suka gigit berlebihan. 😂",
+        "Makasih udah jadi rumah buat aku pulang.",
+        "Aku ada disamping kamu sayang, suka duka aku ada buat kamu",
       ];
       const surpriseBtn = document.getElementById("surpriseBtn");
       const surpriseBox = document.getElementById("surpriseBox");
