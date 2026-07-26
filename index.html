@@ -2,10 +2,11 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"
+> viewport-fit=cover"
+/>
     <title>Kartu Bunga Pink</title>
     <style>
             :root {
@@ -25,12 +26,20 @@
               box-sizing: border-box;
             }
 
-            html, body {
-        min-height: 100dvh;
-        font-family: "Georgia", "Times New Roman", serif;
-        background-color: var(--blossom-1);
-        /* ... */
-      }
+           html {
+  height: -webkit-fill-available; /* Khusus penstabil layar Safari iOS */
+}
+
+body {
+  min-height: 100dvh;
+  min-height: -webkit-fill-available; /* Mengatasi bug tinggi layar di iPhone */
+  margin: 0;
+  padding: 0;
+  font-family: "Georgia", "Times New Roman", serif;
+  background-color: var(--blossom-1);
+  overflow-x: hidden; /* Mencegah geser ke samping yang bikin layout rusak */
+  -webkit-text-size-adjust: 100%; /* Mencegah teks otomatis diperbesar sendiri oleh Safari */
+}
               background-image: radial-gradient(
                   ellipse at top,
                   var(--blossom-1) 0%,
