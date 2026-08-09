@@ -344,9 +344,8 @@
         display: none;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        padding: 32px 20px 100px;
-        text-align: center;
+        justify-content: safe center;
+        padding: 40px 20px calc(100px + env(safe-area-inset-bottom));
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         opacity: 0;
@@ -775,13 +774,9 @@
         position: fixed;
         left: 0;
         right: 0;
-        bottom: 18px;
+        bottom: calc(18px + env(safe-area-inset-bottom));
         z-index: 5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 14px;
-        pointer-events: none;
+        ...;
       }
 
       .nav-btn {
@@ -978,7 +973,7 @@
           <div class="corner-flower tl">🌸</div>
           <div class="frame">
             <div class="frame-inner">
-              <img id="photo" src="foto.jpg.jpeg" alt="Foto kenangan" />
+              <img id="photo" src="foto.jpeg" alt="Foto kenangan" />
             </div>
           </div>
           <div class="corner-flower br">🌺</div>
@@ -1060,348 +1055,362 @@
     </div>
 
     <script>
-      // ---------- Generate kelopak bunga berjatuhan (berjalan terus, lepas dari slide) ----------
-      const flowers = ["🌸", "🌺", "🌷", "💮", "❀", "✿", "💕", "💗"];
-      const container = document.getElementById("petals");
-      const totalPetals = 22;
+            // ---------- Generate kelopak bunga berjatuhan (berjalan terus, lepas dari slide) ----------
+            const flowers = ["🌸", "🌺", "🌷", "💮", "❀", "✿", "💕", "💗"];
+            const container = document.getElementById("petals");
+            const totalPetals = 22;
 
-      for (let i = 0; i < totalPetals; i++) {
-        const el = document.createElement("div");
-        el.className = "petal";
-        el.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+            for (let i = 0; i < totalPetals; i++) {
+              const el = document.createElement("div");
+              el.className = "petal";
+              el.textContent = flowers[Math.floor(Math.random() * flowers.length)];
 
-        const left = Math.random() * 100;
-        const fallDuration = 8 + Math.random() * 10; // 8 - 18s
-        const swayDuration = 2 + Math.random() * 3; // 2 - 5s
-        const delay = Math.random() * 15;
-        const size = 16 + Math.random() * 18;
+              const left = Math.random() * 100;
+              const fallDuration = 8 + Math.random() * 10; // 8 - 18s
+              const swayDuration = 2 + Math.random() * 3; // 2 - 5s
+              const delay = Math.random() * 15;
+              const size = 16 + Math.random() * 18;
 
-        el.style.left = left + "vw";
-        el.style.fontSize = size + "px";
-        el.style.animationDuration = fallDuration + "s, " + swayDuration + "s";
-        el.style.animationDelay = -delay + "s, " + -delay + "s";
+              el.style.left = left + "vw";
+              el.style.fontSize = size + "px";
+              el.style.animationDuration = fallDuration + "s, " + swayDuration + "s";
+              el.style.animationDelay = -delay + "s, " + -delay + "s";
 
-        container.appendChild(el);
-      }
+              container.appendChild(el);
+            }
 
-      // Jaga animasi tetap berjalan saat tab/halaman kembali aktif di HP
-      document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) {
-          document.querySelectorAll(".petal").forEach((p) => {
-            p.style.animationPlayState = "running";
-          });
+            // Jaga animasi tetap berjalan saat tab/halaman kembali aktif di HP
+            document.addEventListener("visibilitychange", () => {
+              if (!document.hidden) {
+                document.querySelectorAll(".petal").forEach((p) => {
+                  p.style.animationPlayState = "running";
+                });
+              }
+            });
+
+            // ---------- Navigasi slide (statis, hanya pindah saat diklik) ----------
+            const slides = Array.from(document.querySelectorAll(".slide"));
+            const dotsWrap = document.getElementById("dots");
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            let current = 0;
+
+            slides.forEach((_, i) => {
+              const d = document.createElement("div");
+              d.className = "dot" + (i === 0 ? " active" : "");
+              d.dataset.index = i;
+              dotsWrap.appendChild(d);
+            });
+            const dotEls = Array.from(dotsWrap.children);
+
+            function showSlide(index, direction) {
+              const target = Math.max(0, Math.min(slides.length - 1, index));
+              if (direction === undefined) {
+                direction =
+                  target > current ? "next" : target < current ? "prev" : null;
+              }
+              current = target;
+              slides.forEach((s, i) => {
+                const isActive = i === current;
+                s.classList.remove("enter-next", "enter-prev");
+                if (isActive) {
+                  if (direction === "next") s.classList.add("enter-next");
+                  else if (direction === "prev") s.classList.add("enter-prev");
+                }
+                s.classList.toggle("active", isActive);
+              });
+              dotEls.forEach((d, i) => {
+                d.classList.toggle("active", i === current);
+              });
+              prevBtn.disabled = current === 0;
+              nextBtn.textContent =
+                current === slides.length - 1 ? "Selesai ✓" : "Lanjut →";
+            }
+
+            // ---------- Efek hati meletup saat pindah slide ----------
+            const burstEmojis = ["💖", "💕", "🌸", "✨"];
+            function burstHeartsAt(clientX, clientY) {
+              for (let i = 0; i < 6; i++) {
+                const h = document.createElement("span");
+                h.className = "burst-heart";
+                h.textContent =
+                  burstEmojis[Math.floor(Math.random() * burstEmojis.length)];
+                h.style.left = clientX + (Math.random() * 50 - 25) + "px";
+                h.style.top = clientY + "px";
+                h.style.fontSize = 14 + Math.random() * 10 + "px";
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 1200);
+              }
+            }
+            function burstFromEvent(e) {
+              const r = e.currentTarget.getBoundingClientRect();
+              burstHeartsAt(r.left + r.width / 2, r.top);
+            }
+
+            prevBtn.addEventListener("click", (e) => {
+              burstFromEvent(e);
+              showSlide(current - 1, "prev");
+            });
+            nextBtn.addEventListener("click", (e) => {
+              if (current < slides.length - 1) {
+                burstFromEvent(e);
+                showSlide(current + 1, "next");
+              }
+            });
+            dotEls.forEach((d) => {
+              d.addEventListener("click", () =>
+                showSlide(parseInt(d.dataset.index, 10))
+              );
+            });
+
+            showSlide(0);
+
+            // ---------- Mini kuis: harapan hubungan ke depan ----------
+            const quizData = [
+              {
+                question: "Harapan terbesar kamu buat hubungan kita ke depan apa?",
+                options: [
+                  {
+                    text: "Makin dewasa & makin ngerti satu sama lain",
+                    reveal:
+                      "Setuju. Semoga kita makin jago komunikasi, bukan makin jago tebak-tebakan. 🌸",
+                  },
+                  {
+                    text: "Bisa lanjut ke jenjang yang lebih serius",
+                    reveal: "Aamiin, semoga waktunya dimudahkan dan direstui. 🤲",
+                  },
+                  {
+                    text: "Tetap seru & nggak ngebosenin kayak sekarang",
+                    reveal: "Sepakat, drama boleh sedikit, garing jangan banyak. 😂",
+                  },
+                ],
+              },
+              {
+                question: "Kalau nanti ada masalah besar, maunya diselesaiin gimana?",
+                options: [
+                  {
+                    text: "Dibicarain baik-baik sampai tuntas",
+                    reveal: "Ini kunci. Ngambek boleh, ngilang jangan. 🫶",
+                  },
+                  {
+                    text: "Kasih waktu dingin dulu, baru ngobrol",
+                    reveal:
+                      "Fair, yang penting nggak dianggurin sampai berhari-hari ya. 😌",
+                  },
+                  {
+                    text: "Selesai di hari itu juga, nggak dibawa tidur",
+                    reveal: "Setuju, biar nggak numpuk jadi bom waktu. 💣➡️💗",
+                  },
+                ],
+              },
+              {
+                question: "Masa depan yang kamu bayangin buat kita tuh kayak gimana?",
+                options: [
+                  {
+                    text: "Tenang, sederhana, yang penting bareng",
+                    reveal: "Rumah kecil isinya banyak tawa, cukup. 🏡",
+                  },
+                  {
+                    text: "Rame, banyak kegiatan & petualangan bareng",
+                    reveal: "Oke, siap-siap itinerary dadakan dari aku. ✈️",
+                  },
+                  {
+                    text: "Yang penting berdua, bentuknya belakangan",
+                    reveal:
+                      "Setuju, jalanin dulu, detailnya kita susun bareng-bareng. 🌷",
+                  },
+                ],
+              },
+              {
+                question: "Hal yang paling pengen kamu jaga dari hubungan ini?",
+                options: [
+                  {
+                    text: "Kepercayaan",
+                    reveal: "Nomor satu. Sekali retak, susah balik kayak semula. 🌸",
+                  },
+                  {
+                    text: "Komunikasi",
+                    reveal:
+                      "Setuju, banyak masalah selesai cuma karena mau ngomong duluan.",
+                  },
+                  {
+                    text: "Waktu berkualitas bareng",
+                    reveal: "Sibuk boleh, tapi jangan lupa nyempetin buat kita. 💗",
+                  },
+                ],
+              },
+              {
+                question: "Dalam beberapa tahun ke depan, maunya kita udah…",
+                options: [
+                  {
+                    text: "Nikah & bangun rumah tangga bareng",
+                    reveal: "Semoga dilancarkan prosesnya ya. Aamiin. 🤲🌸",
+                  },
+                  {
+                    text: "Lebih stabil di karir masing-masing & makin solid",
+                    reveal: "Sama-sama berkembang, tapi tetap satu tim. 💪💗",
+                  },
+                  {
+                    text: "Masih terus belajar bareng, apapun hasilnya",
+                    reveal: "Yang penting jalan bareng terus, nggak buru-buru. 🌷",
+                  },
+                ],
+              },
+            ];
+
+            let quizIndex = 0;
+            const quizAnswers = [];
+            const quizProgressEl = document.getElementById("quizProgress");
+            const quizQuestionEl = document.getElementById("quizQuestion");
+            const quizOptionsEl = document.getElementById("quizOptions");
+            const quizRevealEl = document.getElementById("quizReveal");
+            const quizNextBtn = document.getElementById("quizNextBtn");
+            const quizQuestionWrap = document.getElementById("quizQuestionWrap");
+            const quizResultEl = document.getElementById("quizResult");
+            const quizResultListEl = document.getElementById("quizResultList");
+
+            function renderQuiz() {
+              const data = quizData[quizIndex];
+              quizProgressEl.textContent = `soal ${quizIndex + 1} / ${
+                quizData.length
+              }`;
+              quizQuestionEl.textContent = data.question;
+              quizOptionsEl.innerHTML = "";
+              quizRevealEl.classList.remove("show");
+              quizRevealEl.textContent = "";
+              quizNextBtn.style.display = "none";
+
+              data.options.forEach((opt, i) => {
+                const btn = document.createElement("div");
+                btn.className = "quiz-option";
+                btn.textContent = opt.text;
+                btn.addEventListener("click", () => selectQuizOption(i));
+                quizOptionsEl.appendChild(btn);
+              });
+            }
+
+            function selectQuizOption(i) {
+              const data = quizData[quizIndex];
+              const optionEls = Array.from(quizOptionsEl.children);
+              optionEls.forEach((el, idx) => {
+                el.classList.add("disabled");
+                if (idx === i) el.classList.add("selected");
+              });
+
+              quizAnswers[quizIndex] = {
+                question: data.question,
+                answer: data.options[i].text,
+              };
+
+              setTimeout(() => {
+                quizRevealEl.textContent = data.options[i].reveal;
+                quizRevealEl.classList.add("show");
+                quizNextBtn.textContent =
+                  quizIndex === quizData.length - 1
+                    ? "Lihat rekap kita →"
+                    : "Soal berikutnya →";
+                quizNextBtn.style.display = "inline-block";
+              }, 200);
+            }
+
+            quizNextBtn.addEventListener("click", () => {
+              if (quizIndex < quizData.length - 1) {
+                quizIndex += 1;
+                renderQuiz();
+              } else {
+                showQuizResult();
+              }
+            });
+
+            function showQuizResult() {
+              quizQuestionWrap.style.display = "none";
+              quizResultEl.style.display = "block";
+              quizResultListEl.innerHTML = "";
+              quizAnswers.forEach((a) => {
+                const item = document.createElement("div");
+                item.className = "quiz-result-item";
+                item.innerHTML = `<b>${a.question}</b>${a.answer}`;
+                quizResultListEl.appendChild(item);
+              });
+            }
+
+            renderQuiz();
+
+            // ---------- Tombol kejutan ----------
+            const surpriseMsgs = [
+              "Kamu itu bukti kalau doa nggak pernah telat, cuma nunggu waktu yang pas. 🌸",
+              "PS: kamu cantik dari sononya, bukan cuma waktu difoto pakai filter. 😌",
+              "Kalau capek, istirahat dulu ya. Aku nggak kemana-mana kok. 🫶",
+              "Fun fact: senyum kamu itu satu-satunya alasan aku nggak jadi mager hari ini.",
+              "Semoga semua rencana kamu tahun ini dimudahkan sama Allah. Aamiin. 🤲",
+              "Aku tetap milih kamu, walau kamu suka worry berlebihan. 😂",
+              "Makasih udah jadi rumah paling nyaman buat aku pulang.",
+              "Kalau sayang bisa ditimbang, punyaku udah kelebihan muatan sih.",
+            ];
+            const surpriseBtn = document.getElementById("surpriseBtn");
+            const surpriseBox = document.getElementById("surpriseBox");
+            let surpriseIndex = -1;
+            surpriseBtn.addEventListener("click", () => {
+              let next = Math.floor(Math.random() * surpriseMsgs.length);
+              if (surpriseMsgs.length > 1) {
+                while (next === surpriseIndex) {
+                  next = Math.floor(Math.random() * surpriseMsgs.length);
+                }
+              }
+              surpriseIndex = next;
+              surpriseBox.style.opacity = 0;
+              setTimeout(() => {
+                surpriseBox.textContent = surpriseMsgs[surpriseIndex];
+                surpriseBox.style.opacity = 1;
+              }, 150);
+            });
+
+            // ---------- Meteran cinta ----------
+            const loveHeart = document.getElementById("loveHeart");
+            const loveCount = document.getElementById("loveCount");
+            const loveMsg = document.getElementById("loveMsg");
+            let loveTotal = 0;
+            const loveStages = [
+              { min: 0, text: "pencet kalau kamu juga sayang aku" },
+              { min: 1, text: "yah baru segitu doang sayangnya? 😏" },
+              { min: 100, text: "100 klik dapet kopi" },
+              { min: 500, text: "500 klik dapet hug dari aku" },
+              {
+                min: 30,
+                text: "oke oke aku percaya, jangan sampai jebol jarinya sayang 😆",
+              },
+              {
+                min: 50,
+                text: "meterannya udah penuh, sisanya dibuktiin di dunia nyata ya 🫶",
+              },
+            ];
+            loveHeart.addEventListener("click", () => {
+              loveTotal += 1;
+              loveCount.textContent = loveTotal + " kali dipencet";
+              let msg = loveStages[0].text;
+              for (const stage of loveStages) {
+                if (loveTotal >= stage.min) msg = stage.text;
+              }
+              loveMsg.textContent = msg;
+              loveHeart.style.transform = "scale(1.35)";
+              setTimeout(() => {
+                loveHeart.style.transform = "scale(1)";
+              }, 150);
+            });
+            @media (max-width: 480px) {
+        html, body {
+          height: 100dvh; /* Menggunakan Dynamic Viewport Height HP */
         }
-      });
-
-      // ---------- Navigasi slide (statis, hanya pindah saat diklik) ----------
-      const slides = Array.from(document.querySelectorAll(".slide"));
-      const dotsWrap = document.getElementById("dots");
-      const prevBtn = document.getElementById("prevBtn");
-      const nextBtn = document.getElementById("nextBtn");
-      let current = 0;
-
-      slides.forEach((_, i) => {
-        const d = document.createElement("div");
-        d.className = "dot" + (i === 0 ? " active" : "");
-        d.dataset.index = i;
-        dotsWrap.appendChild(d);
-      });
-      const dotEls = Array.from(dotsWrap.children);
-
-      function showSlide(index, direction) {
-        const target = Math.max(0, Math.min(slides.length - 1, index));
-        if (direction === undefined) {
-          direction =
-            target > current ? "next" : target < current ? "prev" : null;
+        h1 {
+          font-size: 28px;
         }
-        current = target;
-        slides.forEach((s, i) => {
-          const isActive = i === current;
-          s.classList.remove("enter-next", "enter-prev");
-          if (isActive) {
-            if (direction === "next") s.classList.add("enter-next");
-            else if (direction === "prev") s.classList.add("enter-prev");
-          }
-          s.classList.toggle("active", isActive);
-        });
-        dotEls.forEach((d, i) => {
-          d.classList.toggle("active", i === current);
-        });
-        prevBtn.disabled = current === 0;
-        nextBtn.textContent =
-          current === slides.length - 1 ? "Selesai ✓" : "Lanjut →";
-      }
-
-      // ---------- Efek hati meletup saat pindah slide ----------
-      const burstEmojis = ["💖", "💕", "🌸", "✨"];
-      function burstHeartsAt(clientX, clientY) {
-        for (let i = 0; i < 6; i++) {
-          const h = document.createElement("span");
-          h.className = "burst-heart";
-          h.textContent =
-            burstEmojis[Math.floor(Math.random() * burstEmojis.length)];
-          h.style.left = clientX + (Math.random() * 50 - 25) + "px";
-          h.style.top = clientY + "px";
-          h.style.fontSize = 14 + Math.random() * 10 + "px";
-          document.body.appendChild(h);
-          setTimeout(() => h.remove(), 1200);
+        .subtitle {
+          font-size: 13px;
+        }
+        .frame-wrap {
+          width: min(260px, 75vw); /* Ukuran bingkai foto disesuaikan agar tidak terlalu besar di HP */
         }
       }
-      function burstFromEvent(e) {
-        const r = e.currentTarget.getBoundingClientRect();
-        burstHeartsAt(r.left + r.width / 2, r.top);
-      }
-
-      prevBtn.addEventListener("click", (e) => {
-        burstFromEvent(e);
-        showSlide(current - 1, "prev");
-      });
-      nextBtn.addEventListener("click", (e) => {
-        if (current < slides.length - 1) {
-          burstFromEvent(e);
-          showSlide(current + 1, "next");
-        }
-      });
-      dotEls.forEach((d) => {
-        d.addEventListener("click", () =>
-          showSlide(parseInt(d.dataset.index, 10))
-        );
-      });
-
-      showSlide(0);
-
-      // ---------- Mini kuis: harapan hubungan ke depan ----------
-      const quizData = [
-        {
-          question: "Harapan terbesar kamu buat hubungan kita ke depan apa?",
-          options: [
-            {
-              text: "Makin dewasa & makin ngerti satu sama lain",
-              reveal:
-                "Setuju. Semoga kita makin jago komunikasi, bukan makin jago tebak-tebakan. 🌸",
-            },
-            {
-              text: "Bisa lanjut ke jenjang yang lebih serius",
-              reveal: "Aamiin, semoga waktunya dimudahkan dan direstui. 🤲",
-            },
-            {
-              text: "Tetap seru & nggak ngebosenin kayak sekarang",
-              reveal: "Sepakat, drama boleh sedikit, garing jangan banyak. 😂",
-            },
-          ],
-        },
-        {
-          question: "Kalau nanti ada masalah besar, maunya diselesaiin gimana?",
-          options: [
-            {
-              text: "Dibicarain baik-baik sampai tuntas",
-              reveal: "Ini kunci. Ngambek boleh, ngilang jangan. 🫶",
-            },
-            {
-              text: "Kasih waktu dingin dulu, baru ngobrol",
-              reveal:
-                "Fair, yang penting nggak dianggurin sampai berhari-hari ya. 😌",
-            },
-            {
-              text: "Selesai di hari itu juga, nggak dibawa tidur",
-              reveal: "Setuju, biar nggak numpuk jadi bom waktu. 💣➡️💗",
-            },
-          ],
-        },
-        {
-          question: "Masa depan yang kamu bayangin buat kita tuh kayak gimana?",
-          options: [
-            {
-              text: "Tenang, sederhana, yang penting bareng",
-              reveal: "Rumah kecil isinya banyak tawa, cukup. 🏡",
-            },
-            {
-              text: "Rame, banyak kegiatan & petualangan bareng",
-              reveal: "Oke, siap-siap itinerary dadakan dari aku. ✈️",
-            },
-            {
-              text: "Yang penting berdua, bentuknya belakangan",
-              reveal:
-                "Setuju, jalanin dulu, detailnya kita susun bareng-bareng. 🌷",
-            },
-          ],
-        },
-        {
-          question: "Hal yang paling pengen kamu jaga dari hubungan ini?",
-          options: [
-            {
-              text: "Kepercayaan",
-              reveal: "Nomor satu. Sekali retak, susah balik kayak semula. 🌸",
-            },
-            {
-              text: "Komunikasi",
-              reveal:
-                "Setuju, banyak masalah selesai cuma karena mau ngomong duluan.",
-            },
-            {
-              text: "Waktu berkualitas bareng",
-              reveal: "Sibuk boleh, tapi jangan lupa nyempetin buat kita. 💗",
-            },
-          ],
-        },
-        {
-          question: "Dalam beberapa tahun ke depan, maunya kita udah…",
-          options: [
-            {
-              text: "Nikah & bangun rumah tangga bareng",
-              reveal: "Semoga dilancarkan prosesnya ya. Aamiin. 🤲🌸",
-            },
-            {
-              text: "Lebih stabil di karir masing-masing & makin solid",
-              reveal: "Sama-sama berkembang, tapi tetap satu tim. 💪💗",
-            },
-            {
-              text: "Masih terus belajar bareng, apapun hasilnya",
-              reveal: "Yang penting jalan bareng terus, nggak buru-buru. 🌷",
-            },
-          ],
-        },
-      ];
-
-      let quizIndex = 0;
-      const quizAnswers = [];
-      const quizProgressEl = document.getElementById("quizProgress");
-      const quizQuestionEl = document.getElementById("quizQuestion");
-      const quizOptionsEl = document.getElementById("quizOptions");
-      const quizRevealEl = document.getElementById("quizReveal");
-      const quizNextBtn = document.getElementById("quizNextBtn");
-      const quizQuestionWrap = document.getElementById("quizQuestionWrap");
-      const quizResultEl = document.getElementById("quizResult");
-      const quizResultListEl = document.getElementById("quizResultList");
-
-      function renderQuiz() {
-        const data = quizData[quizIndex];
-        quizProgressEl.textContent = `soal ${quizIndex + 1} / ${
-          quizData.length
-        }`;
-        quizQuestionEl.textContent = data.question;
-        quizOptionsEl.innerHTML = "";
-        quizRevealEl.classList.remove("show");
-        quizRevealEl.textContent = "";
-        quizNextBtn.style.display = "none";
-
-        data.options.forEach((opt, i) => {
-          const btn = document.createElement("div");
-          btn.className = "quiz-option";
-          btn.textContent = opt.text;
-          btn.addEventListener("click", () => selectQuizOption(i));
-          quizOptionsEl.appendChild(btn);
-        });
-      }
-
-      function selectQuizOption(i) {
-        const data = quizData[quizIndex];
-        const optionEls = Array.from(quizOptionsEl.children);
-        optionEls.forEach((el, idx) => {
-          el.classList.add("disabled");
-          if (idx === i) el.classList.add("selected");
-        });
-
-        quizAnswers[quizIndex] = {
-          question: data.question,
-          answer: data.options[i].text,
-        };
-
-        setTimeout(() => {
-          quizRevealEl.textContent = data.options[i].reveal;
-          quizRevealEl.classList.add("show");
-          quizNextBtn.textContent =
-            quizIndex === quizData.length - 1
-              ? "Lihat rekap kita →"
-              : "Soal berikutnya →";
-          quizNextBtn.style.display = "inline-block";
-        }, 200);
-      }
-
-      quizNextBtn.addEventListener("click", () => {
-        if (quizIndex < quizData.length - 1) {
-          quizIndex += 1;
-          renderQuiz();
-        } else {
-          showQuizResult();
-        }
-      });
-
-      function showQuizResult() {
-        quizQuestionWrap.style.display = "none";
-        quizResultEl.style.display = "block";
-        quizResultListEl.innerHTML = "";
-        quizAnswers.forEach((a) => {
-          const item = document.createElement("div");
-          item.className = "quiz-result-item";
-          item.innerHTML = `<b>${a.question}</b>${a.answer}`;
-          quizResultListEl.appendChild(item);
-        });
-      }
-
-      renderQuiz();
-
-      // ---------- Tombol kejutan ----------
-      const surpriseMsgs = [
-        "Kamu itu bukti kalau doa nggak pernah telat, cuma nunggu waktu yang pas. 🌸",
-        "PS: kamu cantik dari sononya, bukan cuma waktu difoto pakai filter. 😌",
-        "Kalau capek, istirahat dulu ya. Aku nggak kemana-mana kok. 🫶",
-        "Fun fact: senyum kamu itu satu-satunya alasan aku nggak jadi mager hari ini.",
-        "Semoga semua rencana kamu tahun ini dimudahkan sama Allah. Aamiin. 🤲",
-        "Aku tetap milih kamu, walau kamu suka worry berlebihan. 😂",
-        "Makasih udah jadi rumah paling nyaman buat aku pulang.",
-        "Kalau sayang bisa ditimbang, punyaku udah kelebihan muatan sih.",
-      ];
-      const surpriseBtn = document.getElementById("surpriseBtn");
-      const surpriseBox = document.getElementById("surpriseBox");
-      let surpriseIndex = -1;
-      surpriseBtn.addEventListener("click", () => {
-        let next = Math.floor(Math.random() * surpriseMsgs.length);
-        if (surpriseMsgs.length > 1) {
-          while (next === surpriseIndex) {
-            next = Math.floor(Math.random() * surpriseMsgs.length);
-          }
-        }
-        surpriseIndex = next;
-        surpriseBox.style.opacity = 0;
-        setTimeout(() => {
-          surpriseBox.textContent = surpriseMsgs[surpriseIndex];
-          surpriseBox.style.opacity = 1;
-        }, 150);
-      });
-
-      // ---------- Meteran cinta ----------
-      const loveHeart = document.getElementById("loveHeart");
-      const loveCount = document.getElementById("loveCount");
-      const loveMsg = document.getElementById("loveMsg");
-      let loveTotal = 0;
-      const loveStages = [
-        { min: 0, text: "pencet kalau kamu juga sayang aku" },
-        { min: 1, text: "yah baru segitu doang sayangnya? 😏" },
-        { min: 100, text: "100 klik dapet kopi" },
-        { min: 500, text: "500 klik dapet hug dari aku" },
-        {
-          min: 30,
-          text: "oke oke aku percaya, jangan sampai jebol jarinya sayang 😆",
-        },
-        {
-          min: 50,
-          text: "meterannya udah penuh, sisanya dibuktiin di dunia nyata ya 🫶",
-        },
-      ];
-      loveHeart.addEventListener("click", () => {
-        loveTotal += 1;
-        loveCount.textContent = loveTotal + " kali dipencet";
-        let msg = loveStages[0].text;
-        for (const stage of loveStages) {
-          if (loveTotal >= stage.min) msg = stage.text;
-        }
-        loveMsg.textContent = msg;
-        loveHeart.style.transform = "scale(1.35)";
-        setTimeout(() => {
-          loveHeart.style.transform = "scale(1)";
-        }, 150);
-      });
     </script>
   </body>
 </html>
